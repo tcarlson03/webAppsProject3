@@ -1,0 +1,71 @@
+body {
+    background-color: lightgray;
+    padding: 3%;
+}
+
+.App {
+    background-color: white;
+    padding: 0;
+}
+
+.page-title {
+    margin-left: 2.7%;
+    background-image: linear-gradient(to right, blue, orange);
+    background-size: 100%;
+    width: fit-content;
+    margin-top: 1%;
+    font-size: 2.5vw;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    text-fill-color: transparent;
+}
+
+header {
+    display: flex;
+    border-bottom: solid 1px lightgray;
+    width: 100%;
+    margin: 0;
+    padding-top: 1vh;
+}
+
+header nav {
+    margin-left: 18%;
+}
+
+nav ul{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+
+}
+nav ul li {
+    /* This allow us to arrange list items in a row, without using float */
+    display: inline-block;
+    list-style-type: none;
+    margin-top: 3%;
+
+}
+
+header nav  ul  li  a {
+    color: black;
+    display: block;
+    border: solid 1px lightgray;
+    padding: 0.5em;
+    margin: 0.5em;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2vw;
+    box-shadow: -7px 10px 25px -7px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+h2 {
+    margin-left: 1.3em;
+    font-size: 2vw;
+}
+
+.Team {
+    text-align: center;
+}
