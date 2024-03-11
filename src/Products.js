@@ -1,9 +1,12 @@
-import './App.css';
-import App from './App';
 import React, { useState, useEffect } from 'react';
+import './App.css';
+import ProductDetail from './ProductDetail';
+import App from "./App"; // Import the ProductDetail component
 
 function Products() {
     const [data, setData] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState(null); // State to track the selected product
+    const [showProductDetail, setShowProductDetail] = useState(false);
 
     useEffect(() => {
         // Fetch the JSON file
@@ -23,7 +26,7 @@ function Products() {
         const productContainer = document.querySelectorAll('.product');
         productContainer.forEach((productContainer, index) => {
             productContainer.style.display = 'flex';
-            productContainer.style.padding = '10px';
+            productContainer.style.margin = '0px';
         });
     }, [data]);
 
@@ -32,16 +35,17 @@ function Products() {
         productContainers.forEach((productContainers, index) => {
             productContainers.style.border = '1px solid #FFFFFF';
             productContainers.style.paddingLeft = '10px';
-            productContainers.style.paddingTop = '5px';
+            productContainers.style.paddingTop = '10px';
+            productContainers.style.fontSize = '1vw';
             if (index % 7 === 1 || index % 7 === 4 || index % 7 === 5) {
                 productContainers.style.textAlign = 'right';
             } else {
                 productContainers.style.textAlign = 'left';
             }
-            productContainers.style.paddingBottom = '5px';
+            productContainers.style.paddingBottom = '10px';
             productContainers.style.paddingRight = '10px';
             if (Math.floor(index / 7) % 2 === 0) {
-                productContainers.style.backgroundColor = '#ffffff';
+                productContainers.style.backgroundColor = '#e0e0e0'; //'#ffffff'
             } else {
                 productContainers.style.backgroundColor = '#e0e0e0';
             }
@@ -54,6 +58,7 @@ function Products() {
             h3Element.style.backgroundColor = '#999999';
             h3Element.style.padding = '10px';
             h3Element.style.border = '1px solid #FFFFFF';
+            h3Element.style.fontSize = '1.7vw';
             if (index === 1 || index === 4 || index === 5) {
                 h3Element.style.textAlign = 'right';
             } else {
@@ -62,7 +67,6 @@ function Products() {
         });
     }, [data]);
 
-    // displays all the products in a column
     useEffect(() => {
         const productTotal = document.querySelector('.product-list');
         if (productTotal) {
@@ -80,12 +84,27 @@ function Products() {
         }
     }, [data]);
 
+    const handleLearnMoreClick = (product) => {
+        // Update selectedProduct state with the clicked product
+        setSelectedProduct(product);
+        setShowProductDetail(true);
+
+    };
+
+    const handleCloseProductDetail = () => {
+        // Clear the selected product and hide the ProductDetail component
+        setSelectedProduct(null);
+        setShowProductDetail(false);
+    };
+
+
     return (
+
         <div className="App">
             <App />
             <h2>Products</h2>
-            <div class="column-titles">
-                <h3 style={{ width: `${100 / 7}%` }}>Title</h3>
+            <div className="column-titles">
+                <h3 style={{ width: `${100 / 3}%` }}>Title</h3>
                 <h3 style={{ width: `${100 / 7}%` }}>Price</h3>
                 <h3 style={{ width: `${100 / 7}%` }}>Category</h3>
                 <h3 style={{ width: `${100 / 7}%` }}>Rating</h3>
@@ -97,19 +116,30 @@ function Products() {
                 {data ? (
                     data.map(product => (
                         <div key={product.id} className="product">
-                            <p style={{ width: `${100 / 7}%` }}>{product.title}</p>
+                            <p style={{ width: `${100 / 3}%` }}>{product.title}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.price.toFixed(2)}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.category}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.rating.rate}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.inventory}</p>
                             <p style={{ width: `${100 / 7}%` }}>{(product.price * product.inventory).toFixed(2)}</p>
-                            <p style={{ width: `${100 / 7}%` }}><button type="button">Learn More</button></p>
+                            <p style={{ width: `${100 / 7}%` }}>
+                                <button type="button" style={{ fontSize: '1vw' }} onClick={() => handleLearnMoreClick(product)}>Learn More</button>
+                            </p>
                         </div>
+
+
                     ))
                 ) : (
                     <p>Loading...</p>
                 )}
             </div>
+            {/* Conditionally render ProductDetail component */}
+            {selectedProduct && (
+                <ProductDetail
+                    product={selectedProduct}
+                    onClose={handleCloseProductDetail}
+                />
+            )}
         </div>
     );
 }

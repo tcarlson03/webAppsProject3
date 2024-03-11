@@ -31,7 +31,7 @@ header {
 }
 
 header nav {
-    margin-left: 18%;
+    margin-left: 16%;
 }
 
 nav ul{
@@ -64,8 +64,59 @@ header nav  ul  li  a {
 h2 {
     margin-left: 1.3em;
     font-size: 2vw;
+    margin-bottom: 0px;
 }
 
 .Team {
     text-align: center;
 }
+
+.product-detail-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-detail {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 80%; /* adjust as needed */
+    text-align: left;
+    position: relative; /* Make the position relative */
+}
+
+.close-button {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #888;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+.product-detail img {
+    max-width: 200px; /* Set maximum width of the image */
+    max-height: 200px; /* Set maximum height of the image */
+}
+
+.image-container {
+    background-color: #f0f0f0; /* Gray background color */
+    padding: 40px; /* Increase padding around the image */
+    border-radius: 5px;
+    /* Remove flexbox properties */
+}
+
