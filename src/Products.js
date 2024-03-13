@@ -33,7 +33,7 @@ function Products() {
     }, [data]);
 
     useEffect(() => {
-        const productContainers = document.querySelectorAll('p');
+        const productContainers = document.querySelectorAll('.product p');
         productContainers.forEach((productContainers, index) => {
             productContainers.style.border = '1px solid #FFFFFF';
             productContainers.style.paddingLeft = '10px';
