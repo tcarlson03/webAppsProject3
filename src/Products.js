@@ -7,6 +7,7 @@ function Products() {
     const [data, setData] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null); // State to track the selected product
     const [showProductDetail, setShowProductDetail] = useState(false);
+    const [showSelectedProductIndex, setShowSelectedProductIndex] = useState(null);
 
     useEffect(() => {
         // Fetch the JSON file
@@ -24,9 +25,10 @@ function Products() {
 
     useEffect(() => {
         const productContainer = document.querySelectorAll('.product');
-        productContainer.forEach((productContainer, index) => {
+        productContainer.forEach((productContainer) => {
             productContainer.style.display = 'flex';
-            productContainer.style.margin = '0px';
+            productContainer.style.paddingLeft = '10px';
+            productContainer.style.paddingRight = '10px';
         });
     }, [data]);
 
@@ -36,27 +38,42 @@ function Products() {
             productContainers.style.border = '1px solid #FFFFFF';
             productContainers.style.paddingLeft = '10px';
             productContainers.style.paddingTop = '10px';
+            productContainers.style.paddingBottom = '10px';
+            productContainers.style.paddingRight = '10px';
+            productContainers.style.margin = '0px';
             productContainers.style.fontSize = '1vw';
             if (index % 7 === 1 || index % 7 === 4 || index % 7 === 5) {
                 productContainers.style.textAlign = 'right';
             } else {
                 productContainers.style.textAlign = 'left';
             }
-            productContainers.style.paddingBottom = '10px';
-            productContainers.style.paddingRight = '10px';
+
             if (Math.floor(index / 7) % 2 === 0) {
-                productContainers.style.backgroundColor = '#e0e0e0'; //'#ffffff'
+                if (showSelectedProductIndex === Math.floor(index / 7)) {
+                    productContainers.style.backgroundColor = '#aaaaff'; //'#ffffff'
+                }
+                else {
+                    productContainers.style.backgroundColor = '#ffffff'; //'#ffffff'
+                }
+                //productContainers.style.backgroundColor = '#ffffff'; //'#ffffff'
             } else {
-                productContainers.style.backgroundColor = '#e0e0e0';
+                if (showSelectedProductIndex === Math.floor(index / 7)) {
+                    productContainers.style.backgroundColor = '#aaaaff'; //'#ffffff'
+                }
+                else {
+                    productContainers.style.backgroundColor = '#e0e0e0'; //'#ffffff'
+                }
+                //productContainers.style.backgroundColor = '#e0e0e0';
             }
         });
-    }, [data]);
+    }, [data, showSelectedProductIndex]);
 
     useEffect(() => {
         const h3Element = document.querySelectorAll('h3');
         h3Element.forEach((h3Element, index) => {
             h3Element.style.backgroundColor = '#999999';
             h3Element.style.padding = '10px';
+            h3Element.style.margin = '0px';
             h3Element.style.border = '1px solid #FFFFFF';
             h3Element.style.fontSize = '1.7vw';
             if (index === 1 || index === 4 || index === 5) {
@@ -76,6 +93,13 @@ function Products() {
     }, [data]);
 
     useEffect(() => {
+        const productTotal = document.querySelector('.selected');
+        if (productTotal) {
+            productTotal.style.backgroundColor = '#99ff99';
+        }
+    }, [data]);
+
+    useEffect(() => {
         const columnTitlesContainer = document.querySelector('.column-titles');
         if (columnTitlesContainer) {
             columnTitlesContainer.style.display = 'flex';
@@ -84,17 +108,18 @@ function Products() {
         }
     }, [data]);
 
-    const handleLearnMoreClick = (product) => {
+    const handleLearnMoreClick = (product, productIndex) => {
         // Update selectedProduct state with the clicked product
         setSelectedProduct(product);
         setShowProductDetail(true);
-
+        setShowSelectedProductIndex(productIndex);
     };
 
     const handleCloseProductDetail = () => {
         // Clear the selected product and hide the ProductDetail component
         setSelectedProduct(null);
         setShowProductDetail(false);
+        setShowSelectedProductIndex(null);
     };
 
 
@@ -114,16 +139,20 @@ function Products() {
             </div>
             <div className="product-list">
                 {data ? (
-                    data.map(product => (
+                    data.map((product, index) => (
                         <div key={product.id} className="product">
                             <p style={{ width: `${100 / 3}%` }}>{product.title}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.price.toFixed(2)}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.category}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.rating.rate}</p>
-                            <p style={{ width: `${100 / 7}%` }}>{product.inventory}</p>
-                            <p style={{ width: `${100 / 7}%` }}>{(product.price * product.inventory).toFixed(2)}</p>
+                            <p style={{ width: `${100 / 7}%` }}>{product.inventory.toLocaleString()}</p>
                             <p style={{ width: `${100 / 7}%` }}>
-                                <button type="button" style={{ fontSize: '1vw' }} onClick={() => handleLearnMoreClick(product)}>Learn More</button>
+                            {(product.price * product.inventory).toLocaleString(undefined, {
+                                     minimumFractionDigits: 2,
+                                     maximumFractionDigits: 2,
+                            })}</p>
+                            <p style={{ width: `${100 / 7}%` }}>
+                                <button type="button" style={{ fontSize: '1vw' }} onClick={() => handleLearnMoreClick(product, index)}>Learn More</button>
                             </p>
                         </div>
 
