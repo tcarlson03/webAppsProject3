@@ -8,6 +8,8 @@ function Products() {
     const [selectedProduct, setSelectedProduct] = useState(null); // State to track the selected product
     const [showProductDetail, setShowProductDetail] = useState(false);
     const [showSelectedProductIndex, setShowSelectedProductIndex] = useState(null);
+    const [sortCategory, setSortCategory] = useState(null);
+    const [sortDirection, setSortDirection] = useState('↑');
 
     useEffect(() => {
         // Fetch the JSON file
@@ -22,6 +24,39 @@ function Products() {
                 console.error('Error fetching data:', error);
             });
     }, []);
+
+    const handleSort = category => {
+        if (sortCategory === category) {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortCategory(category);
+            setSortDirection('asc');
+        }
+    };
+
+            const getValue = (obj, key) => {
+                if (key.includes('.')) {
+                    return key.split('.').reduce((acc, cur) => acc[cur], obj);
+                }
+                return obj[key];
+            };
+
+    const sortedData = data
+        ? [...data].sort((a, b) => {
+              if (sortCategory) {
+                  const aValue = getValue(a, sortCategory);
+                  const bValue = getValue(b, sortCategory);
+
+                  if (sortDirection === 'asc') {
+                      return aValue < bValue ? -1 : 1;
+                  } else {
+                      return aValue > bValue ? -1 : 1;
+                  }
+              } else {
+                  return 0;
+              }
+          })
+        : [];
 
     useEffect(() => {
         const productContainer = document.querySelectorAll('.product');
@@ -66,7 +101,7 @@ function Products() {
                 //productContainers.style.backgroundColor = '#e0e0e0';
             }
         });
-    }, [data, showSelectedProductIndex]);
+    }, [sortedData, showSelectedProductIndex]);
 
     useEffect(() => {
         const h3Element = document.querySelectorAll('h3');
@@ -122,6 +157,8 @@ function Products() {
         setShowSelectedProductIndex(null);
     };
 
+// <h3 style={{ width: `${100 / 3}%` }}>Title</h3>
+// <h3 style={{ width: `${100 / 7}%` }}>Category</h3>
 
     return (
 
@@ -129,17 +166,29 @@ function Products() {
             <App />
             <h2>Products</h2>
             <div className="column-titles">
-                <h3 style={{ width: `${100 / 3}%` }}>Title</h3>
-                <h3 style={{ width: `${100 / 7}%` }}>Price</h3>
-                <h3 style={{ width: `${100 / 7}%` }}>Category</h3>
-                <h3 style={{ width: `${100 / 7}%` }}>Rating</h3>
-                <h3 style={{ width: `${100 / 7}%` }}>Inventory</h3>
-                <h3 style={{ width: `${100 / 7}%` }}>Revenue</h3>
+                <h3 style={{ width: `${100 / 3}%`, cursor: 'pointer' }} onClick={() => handleSort('title')}>
+                    Title ⇕ {sortCategory === 'title' && (sortDirection === 'asc')}
+                </h3>
+                <h3 style={{ width: `${100 / 7}%`, cursor: 'pointer' }} onClick={() => handleSort('price')}>
+                    Price ⇕ {sortCategory === 'price' && (sortDirection === 'asc')}
+                </h3>
+                <h3 style={{ width: `${100 / 7}%`, cursor: 'pointer' }} onClick={() => handleSort('category')}>
+                    Category ⇕ {sortCategory === 'category' && (sortDirection === 'asc')}
+                </h3>
+                <h3 style={{ width: `${100 / 7}%`, cursor: 'pointer' }} onClick={() => handleSort('rating.rate')}>
+                    Rating ⇕ {sortCategory === 'rating.rate' && (sortDirection === 'asc')}
+                </h3>
+                <h3 style={{ width: `${100 / 7}%`, cursor: 'pointer' }} onClick={() => handleSort('inventory')}>
+                    Inventory ⇕ {sortCategory === 'inventory' && (sortDirection === 'asc')}
+                </h3>
+                <h3 style={{ width: `${100 / 7}%`, cursor: 'pointer' }} onClick={() => handleSort('revenue')}>
+                    Revenue ⇕ {sortCategory === 'revenue' && (sortDirection === 'asc')}
+                </h3>
                 <h3 style={{ width: `${100 / 7}%` }}> </h3>
             </div>
             <div className="product-list">
                 {data ? (
-                    data.map((product, index) => (
+                    sortedData.map((product, index) => (
                         <div key={product.id} className="product">
                             <p style={{ width: `${100 / 3}%` }}>{product.title}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.price.toFixed(2)}</p>
@@ -147,7 +196,7 @@ function Products() {
                             <p style={{ width: `${100 / 7}%` }}>{product.rating.rate}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.inventory.toLocaleString()}</p>
                             <p style={{ width: `${100 / 7}%` }}>
-                            {(product.price * product.inventory).toLocaleString(undefined, {
+                            {(product.price * product.rating.count).toLocaleString(undefined, {
                                      minimumFractionDigits: 2,
                                      maximumFractionDigits: 2,
                             })}</p>
