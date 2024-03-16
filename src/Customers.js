@@ -227,9 +227,9 @@ function Customers() {
                 <h3 style={{ width: '10%', textAlign: 'center' }}></h3>
             </div>
             {/* Customer rows */}
-            <div className="customer-list">
+            <section className="customer-list">
                 {sortedCustomerData.map((customer, index) => (
-                    <div
+                    <section
                         key={`${customer.name.first}-${customer.name.last}-${customer.email}`}
                         className="customer"
                         onMouseEnter={() => handleMouseEnter(index)}
@@ -237,7 +237,7 @@ function Customers() {
                     >
                         <p style={{ width: '20%' }}>{`${customer.name.title} ${customer.name.first} ${customer.name.last}`}</p>
                         <p style={{ width: '25%' }}>{`${customer.location.street.number} ${customer.location.street.name}, ${customer.location.city}, ${customer.location.state}, ${customer.location.postcode}, ${customer.location.country}`}</p>
-                        <p style={{ width: '25%' }}>{customer.email}</p>
+                        <p style={{ width: '25%'  }}>{customer.email}</p>
                         <p style={{
                             width: '20%',
                             textAlign: 'right'
@@ -245,13 +245,13 @@ function Customers() {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
                         })}</p>
-                        <p style={{ width: '10%', display: 'flex', justifyContent: 'center' }}>
+                        <p style={{ width: '10%', display: 'grid', justifyContent: 'center' }}>
                             <img src={customer.picture.thumbnail} alt={`${customer.name.first} ${customer.name.last}`}
                                  style={{ borderRadius: '50%' }} />
                         </p>
-                    </div>
+                    </section>
                 ))}
-            </div>
+            </section>
         </div>
     );
 }
