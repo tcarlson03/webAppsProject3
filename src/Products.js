@@ -10,6 +10,7 @@ function Products() {
     const [showSelectedProductIndex, setShowSelectedProductIndex] = useState(null);
     const [sortCategory, setSortCategory] = useState(null);
     const [sortDirection, setSortDirection] = useState('↑');
+    const [customerData, setCustomerData] = useState(null);
 
     useEffect(() => {
         // Fetch the JSON file
@@ -18,6 +19,20 @@ function Products() {
             .then(jsonData => {
                 // Once the JSON data is fetched, set it to the state
                 setData(jsonData);
+            })
+            .catch(error => {
+                // Log any errors for debugging
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        // Fetch the JSON file
+        fetch('customers.json')
+            .then(response => response.json())
+            .then(jsonData => {
+                // Once the JSON data is fetched, set it to the state
+                setCustomerData(jsonData);
             })
             .catch(error => {
                 // Log any errors for debugging
@@ -34,16 +49,39 @@ function Products() {
         }
     };
 
-            const getValue = (obj, key) => {
-                if (key.includes('.')) {
-                    return key.split('.').reduce((acc, cur) => acc[cur], obj);
-                }
-                return obj[key];
-            };
+    const getValue = (obj, key) => {
+        if (key.includes('.')) {
+            return key.split('.').reduce((acc, cur) => acc[cur], obj);
+        }
+        return obj[key];
+    };
+
+    const totalRevenue = (prodID, prices) => {
+        let totalRevenue = 0;
+        if (customerData) {
+            customerData.forEach(customer => {
+                customer.purchases.forEach(purchase => {
+                    if (prodID === purchase.productID) {
+                        totalRevenue += (prices * purchase.quantity);
+                    }
+                });
+            });
+        }
+        return totalRevenue;
+    };
 
     const sortedData = data
         ? [...data].sort((a, b) => {
-              if (sortCategory) {
+              if (sortCategory === 'revenue') {
+                  const aValue = totalRevenue(a.id, a.price);
+                  const bValue = totalRevenue(b.id, b.price);
+
+                  if (sortDirection === 'asc') {
+                      return aValue - bValue;
+                  } else {
+                      return bValue - aValue;
+                  }
+              } else if (sortCategory) {
                   const aValue = getValue(a, sortCategory);
                   const bValue = getValue(b, sortCategory);
 
@@ -57,6 +95,7 @@ function Products() {
               }
           })
         : [];
+
 
     useEffect(() => {
         const productContainer = document.querySelectorAll('.product');
@@ -196,7 +235,7 @@ function Products() {
                             <p style={{ width: `${100 / 7}%` }}>{product.rating.rate}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.inventory.toLocaleString()}</p>
                             <p style={{ width: `${100 / 7}%` }}>
-                            {(product.price * product.rating.count).toLocaleString(undefined, {
+                            {totalRevenue(product.id, product.price).toLocaleString(undefined, {
                                      minimumFractionDigits: 2,
                                      maximumFractionDigits: 2,
                             })}</p>
