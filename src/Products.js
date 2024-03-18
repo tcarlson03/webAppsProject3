@@ -72,28 +72,28 @@ function Products() {
 
     const sortedData = data
         ? [...data].sort((a, b) => {
-              if (sortCategory === 'revenue') {
-                  const aValue = totalRevenue(a.id, a.price);
-                  const bValue = totalRevenue(b.id, b.price);
+            if (sortCategory === 'revenue') {
+                const aValue = totalRevenue(a.id, a.price);
+                const bValue = totalRevenue(b.id, b.price);
 
-                  if (sortDirection === 'asc') {
-                      return aValue - bValue;
-                  } else {
-                      return bValue - aValue;
-                  }
-              } else if (sortCategory) {
-                  const aValue = getValue(a, sortCategory);
-                  const bValue = getValue(b, sortCategory);
+                if (sortDirection === 'asc') {
+                    return aValue - bValue;
+                } else {
+                    return bValue - aValue;
+                }
+            } else if (sortCategory) {
+                const aValue = getValue(a, sortCategory);
+                const bValue = getValue(b, sortCategory);
 
-                  if (sortDirection === 'asc') {
-                      return aValue < bValue ? -1 : 1;
-                  } else {
-                      return aValue > bValue ? -1 : 1;
-                  }
-              } else {
-                  return 0;
-              }
-          })
+                if (sortDirection === 'asc') {
+                    return aValue < bValue ? -1 : 1;
+                } else {
+                    return aValue > bValue ? -1 : 1;
+                }
+            } else {
+                return 0;
+            }
+        })
         : [];
 
 
@@ -139,13 +139,20 @@ function Products() {
                 }
                 //productContainers.style.backgroundColor = '#e0e0e0';
             }
+            if (index % 7 === 0) {
+                productContainers.style.borderTopLeftRadius = '10px';
+                productContainers.style.borderBottomLeftRadius = '10px';
+            } else if (index % 7 === 6) {
+                productContainers.style.borderTopRightRadius = '10px';
+                productContainers.style.borderBottomRightRadius = '10px';
+            }
         });
     }, [sortedData, showSelectedProductIndex]);
 
     useEffect(() => {
         const h3Element = document.querySelectorAll('h3');
         h3Element.forEach((h3Element, index) => {
-            h3Element.style.backgroundColor = '#999999';
+            h3Element.style.backgroundColor = '#e0e0e0';
             h3Element.style.padding = '10px';
             h3Element.style.margin = '0px';
             h3Element.style.border = '1px solid #FFFFFF';
@@ -154,6 +161,13 @@ function Products() {
                 h3Element.style.textAlign = 'right';
             } else {
                 h3Element.style.textAlign = 'left';
+            }
+            if (index === 0) {
+                h3Element.style.borderTopLeftRadius = '10px';
+                h3Element.style.borderBottomLeftRadius = '10px';
+            } else if (index === 6) {
+                h3Element.style.borderTopRightRadius = '10px';
+                h3Element.style.borderBottomRightRadius = '10px';
             }
         });
     }, [data]);
@@ -179,7 +193,9 @@ function Products() {
             columnTitlesContainer.style.display = 'flex';
             columnTitlesContainer.style.flexDirection = 'row';
             columnTitlesContainer.style.padding = '10px';
+
         }
+
     }, [data]);
 
     const handleLearnMoreClick = (product, productIndex) => {
@@ -235,10 +251,10 @@ function Products() {
                             <p style={{ width: `${100 / 7}%` }}>{product.rating.rate}</p>
                             <p style={{ width: `${100 / 7}%` }}>{product.inventory.toLocaleString()}</p>
                             <p style={{ width: `${100 / 7}%` }}>
-                            {totalRevenue(product.id, product.price).toLocaleString(undefined, {
-                                     minimumFractionDigits: 2,
-                                     maximumFractionDigits: 2,
-                            })}</p>
+                                {totalRevenue(product.id, product.price).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}</p>
                             <p style={{ width: `${100 / 7}%` }}>
                                 <button type="button" style={{ fontSize: '1vw' }} onClick={() => handleLearnMoreClick(product, index)}>Learn More</button>
                             </p>

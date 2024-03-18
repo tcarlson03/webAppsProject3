@@ -30,6 +30,7 @@ function Customers() {
             headerElement.style.padding = '10px';
             headerElement.style.margin = '0px';
             headerElement.style.border = '1px solid #FFFFFF';
+            headerElement.style.fontSize = '1.7vw';
 
             if (index === 0) {
                 headerElement.style.borderTopLeftRadius = '10px';
@@ -55,6 +56,7 @@ function Customers() {
             headerElement.style.gap = '0px';
             headerElement.style.marginRight = '21px';
             headerElement.style.marginLeft = '21px';
+
         }
     }, []);
 
@@ -190,6 +192,7 @@ function Customers() {
         const customerContainers = document.querySelectorAll('.customer p');
         customerContainers.forEach((customerContainer, index) => {
             const rowIndex = Math.floor(index / 5);
+            customerContainer.style.fontSize = '1vw';
             if (rowIndex % 2 === 0) {
                 if (hoverIndex === rowIndex) {
                     customerContainer.style.backgroundColor = '#dee9f4';
