@@ -4,12 +4,14 @@ import React, { useState } from 'react';
 function TeamMember({name, image, description}) {
     const [flipped, setFlipped] = useState(false);
 
-    const handleClick = () => {
-        setFlipped(!flipped);
-    };
-
     return (
-        <div className="team-member" onClick={handleClick}>
+        <div className="team-member">
+            <img
+                src={image}
+                alt={name}
+                onMouseEnter={() => setFlipped(true)}
+                onMouseLeave={() => setFlipped(false)}
+            />
             {flipped ? (
                 <div className="team-member-details">
                     <h3>{name}</h3>
@@ -18,12 +20,9 @@ function TeamMember({name, image, description}) {
                     <p>{description}</p>
                 </div>
             ) : (
-            <>
-                <img src={image} alt={name} />
                 <h3>{name}</h3>
-            </>
-        )}
-    </div>
+            )}
+        </div>
     );
 }
 
