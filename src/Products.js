@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import ProductDetail from './ProductDetail';
+import Navigation from "./Navigation";
 import App from "./App"; // Import the ProductDetail component
 
 function Products() {
@@ -110,10 +111,10 @@ function Products() {
         const productContainers = document.querySelectorAll('.product p');
         productContainers.forEach((productContainers, index) => {
             productContainers.style.border = '1px solid #FFFFFF';
-            productContainers.style.paddingLeft = '10px';
-            productContainers.style.paddingTop = '10px';
-            productContainers.style.paddingBottom = '10px';
-            productContainers.style.paddingRight = '10px';
+            productContainers.style.paddingLeft = '1%';
+            productContainers.style.paddingTop = '1%';
+            productContainers.style.paddingBottom = '1%';
+            productContainers.style.paddingRight = '1%';
             productContainers.style.margin = '0px';
             productContainers.style.fontSize = '1vw';
             if (index % 7 === 1 || index % 7 === 4 || index % 7 === 5) {
@@ -153,10 +154,10 @@ function Products() {
         const h3Element = document.querySelectorAll('h3');
         h3Element.forEach((h3Element, index) => {
             h3Element.style.backgroundColor = '#e0e0e0';
-            h3Element.style.padding = '10px';
+            h3Element.style.padding = '1%';
             h3Element.style.margin = '0px';
             h3Element.style.border = '1px solid #FFFFFF';
-            h3Element.style.fontSize = '1.7vw';
+            h3Element.style.fontSize = '1.5vw';
             if (index === 1 || index === 4 || index === 5) {
                 h3Element.style.textAlign = 'right';
             } else {
@@ -218,7 +219,7 @@ function Products() {
     return (
 
         <div className="App">
-            <App />
+            <Navigation />
             <h2>Products</h2>
             <div className="column-titles">
                 <h3 style={{ width: `${100 / 3}%`, cursor: 'pointer' }} onClick={() => handleSort('title')}>

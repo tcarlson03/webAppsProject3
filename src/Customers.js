@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import App from './App';
+import Navigation from "./Navigation";
 
 function Customers() {
     const [customerData, setCustomerData] = useState([]);
@@ -27,10 +28,10 @@ function Customers() {
         const headerElements = document.querySelectorAll('.column-titles h3');
         headerElements.forEach((headerElement, index) => {
             headerElement.style.backgroundColor = '#e0e0e0';
-            headerElement.style.padding = '10px';
+            headerElement.style.padding = '1%';
             headerElement.style.margin = '0px';
             headerElement.style.border = '1px solid #FFFFFF';
-            headerElement.style.fontSize = '1.7vw';
+            headerElement.style.fontSize = '1.5vw';
 
             if (index === 0) {
                 headerElement.style.borderTopLeftRadius = '10px';
@@ -54,8 +55,8 @@ function Customers() {
             headerElement.style.display = 'flex';
             headerElement.style.flexDirection = 'row';
             headerElement.style.gap = '0px';
-            headerElement.style.marginRight = '21px';
-            headerElement.style.marginLeft = '21px';
+            headerElement.style.padding = '10px';
+
 
         }
     }, []);
@@ -119,9 +120,6 @@ function Customers() {
         if (customerListElement) {
             customerListElement.style.display = 'flex';
             customerListElement.style.flexDirection = 'column';
-            customerListElement.style.paddingLeft = '10px';
-            customerListElement.style.paddingRight = '10px';
-            customerListElement.style.paddingBottom = '30px';
         }
     }, []);
 
@@ -211,7 +209,7 @@ function Customers() {
 
     return (
         <div className="App">
-            <App />
+            <Navigation />
             <h2>Customers</h2>
             {/* Header */}
             <div className="column-titles">
@@ -250,7 +248,7 @@ function Customers() {
                         })}</p>
                         <p style={{ width: '10%', display: 'grid', justifyContent: 'center' }}>
                             <img src={customer.picture.thumbnail} alt={`${customer.name.first} ${customer.name.last}`}
-                                 style={{ borderRadius: '50%' }} />
+                                 style={{ borderRadius: '50%', width: '100%' }} />
                         </p>
                     </section>
                 ))}

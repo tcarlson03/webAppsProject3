@@ -1,13 +1,11 @@
 import './App.css';
 import Navigation from "./Navigation";
+import Products from "./Products";
 
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <h1 className="page-title">Inventory Management System (IMS)</h1>
-                <Navigation />
-            </header>
+            <Products />
         </div>
     );
 }

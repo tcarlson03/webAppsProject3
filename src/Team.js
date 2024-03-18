@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import App from './App';
 import TeamMember from './TeamMember';
+import Navigation from './Navigation';
 
 function Team() {
     const teamMembers = [
@@ -34,7 +35,7 @@ function Team() {
 
     return (
          <div className="App">
-            <App />
+            <Navigation />
             <h2 className="Team">The Team</h2>
             <div className="team-container">
                 {teamMembers.map(member => (
